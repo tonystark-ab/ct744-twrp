@@ -41,6 +41,7 @@ script:
     make -j$(nproc --all) recoveryimage
     exit
     EOF
+
 after_success:
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
   - cp $HOME/twrp/out/target/product/ct744/recovery.img $HOME/twrp/TWRP-$version-ct744-$(date +"%Y%m%d")-Unofficial.img
