@@ -26,7 +26,6 @@ before_script:
 script:
   # Replace your tonystark-ab, ct744-twrp, celkon, ct744
   - cd $HOME/twrp/ && git clone https://github.com/tonystark-ab/ct744-twrp.git device/celkon/ct744
-  - rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - cd external
   - git clone https://github.com/TeamWin/external_magisk-prebuilt
   - mv external_magisk-prebuilt magisk-prebuilt
