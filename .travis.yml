@@ -33,7 +33,7 @@ script:
     source build/envsetup.sh
     # Choose build flavor as "eng" or "userdebug"
     BUILD_FLAVOR="eng"
-    lunch omni_ct744-${BUILD_FLAVOR}
+    lunch omni_ct744-eng
     make -j$(nproc --all) recoveryimage
     exit
     EOF
