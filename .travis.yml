@@ -11,12 +11,12 @@ addons:
 services:
   - docker
 before_install:
-  # - docker pull fr3akyphantom/droid-builder:latest
+  - docker pull fr3akyphantom/droid-builder:latest
 before_script:
   - cd $HOME && mkdir twrp
-  - sudo apt-get update
-  - sudo apt-get install openjdk-8-jdk --assume-yes
-  - sudo apt-get install bison build-essential g++-multilib git make python zip --assume-yes
+  # - sudo apt-get update
+  # - sudo apt-get install openjdk-8-jdk --assume-yes
+  # - sudo apt-get install bison build-essential g++-multilib git make python zip --assume-yes
   # download the TWRP Compressed Source Files from PhantomZone54's Release
   # Uncomment & Use below line If Building for Lollipop-based Devices
   # - TWRP_SOURCE="https://github.com/PhantomZone54/twrp_sources_norepo/releases/download/v3.3.1-20200222/MinimalOmniRecovery-twrp-5.1-norepo-20200222.tar.xz"
@@ -35,8 +35,15 @@ script:
   - wget https://getmyfile.xyz/dl_2227220/Celkon.zip
   - unzip Celkon
   - cd ..
-  - export ALLOW_MISSING_DEPENDENCIES=true
-  - source build/envsetup.sh
-  - lunch omni_ct744-eng
-  - make -j$(nproc --all) recoveryimage
+  - - export ALLOW_MISSING_DEPENDENCIES=true
+  - |
+    docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash << EOF
+    cd /home/builder/twrp/
+    source build/envsetup.sh
+    # Choose build flavor as "eng" or "userdebug
+    lunch omni_ct744-eng
+    make -j2 recoveryimage
+    exit
+    EOF
+  
   
